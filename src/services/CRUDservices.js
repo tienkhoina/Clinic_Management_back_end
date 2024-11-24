@@ -85,7 +85,7 @@ async function updateUserData(data) {
             return allUsers
 
         } else {
-            return "not found"
+            return {}
         }
 
     } catch (e) {
@@ -110,4 +110,4 @@ async function deleteUserById(userId){
     }
 }
 
-module.exports = { createNewUser,getAllUser,getUserById,updateUserData,deleteUserById};
+module.exports = { hashPassword,createNewUser,getAllUser,getUserById,updateUserData,deleteUserById};
