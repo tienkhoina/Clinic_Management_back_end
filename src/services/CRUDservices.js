@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const db = require('../models/index');
-const { Error } = require('sequelize');
+const { Error,Op } = require('sequelize');
 const salt = bcrypt.genSaltSync(10);
 
 function hashPassword(password) {
@@ -69,6 +69,24 @@ async function getUserById(userId) {
     }
 }
 
+async function getUserRole(userId) {
+  try {
+    let user = await db.User.findOne({
+        where: { id: userId },
+        raw: true,
+
+    });
+
+    let Role = await db.Allcode.findOne({
+        where: {id: user.roleId}
+    })
+
+    return Role.value;
+  } catch (e) {
+    throw new Error(e);
+}
+}
+
 async function updateUserData(data) {
     try {
         let user = await db.User.findOne({
@@ -110,4 +128,4 @@ async function deleteUserById(userId){
     }
 }
 
-module.exports = { hashPassword,createNewUser,getAllUser,getUserById,updateUserData,deleteUserById};
+module.exports = { hashPassword,createNewUser,getAllUser,getUserById,updateUserData,deleteUserById,getUserRole};

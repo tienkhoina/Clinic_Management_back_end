@@ -1,3 +1,5 @@
+//bảng lưu trữ các loại trạng thái dưới dạng mã
+
 'use strict';
 const {
     Model
