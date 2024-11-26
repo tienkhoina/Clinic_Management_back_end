@@ -1,7 +1,7 @@
 const db = require('../models/index');
 const bcrypt = require('bcrypt');
 
-const { getDoctorScheduleById, getDoctorCalendarFree } = require('../services/doctor-allinfo-service')
+const { getDoctorScheduleById, getDoctorCalendarFree, } = require('../services/doctor-allinfo-service')
 
 let checkDoctorFree = async (req, res) => {
     let doctorId = req.query.doctorId;

@@ -45,7 +45,6 @@ let getDoctorCalendarFree = async (userId) => {
 
 }
 
-
 let getDoctorBySpecialtyName = async (specialtyName) => {
     try {
         let results = await db.Specialty.findAll({

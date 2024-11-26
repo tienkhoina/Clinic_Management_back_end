@@ -19,8 +19,8 @@ module.exports = (sequelize, DataTypes) => {
         patientID: DataTypes.INTEGER,
         date: DataTypes.DATE,
         timeType: DataTypes.STRING,
-        createAt: DataTypes.DATE,
-        updatedAt:DataTypes.DATE
+        createdAt: DataTypes.DATE,
+        updatedAt: DataTypes.DATE
     }, {
         sequelize,
         modelName: 'Booking',
