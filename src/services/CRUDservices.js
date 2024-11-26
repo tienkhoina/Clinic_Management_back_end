@@ -1,12 +1,12 @@
 const bcrypt = require('bcrypt');
 const db = require('../models/index');
-const { Error,Op } = require('sequelize');
+const { Error, Op } = require('sequelize');
 const salt = bcrypt.genSaltSync(10);
 
 function hashPassword(password) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      bcrypt.hash(password, salt, (err, hash) => { 
+      bcrypt.hash(password, salt, (err, hash) => {
         if (err) {
           reject('Error hashing password');
         } else {
@@ -41,91 +41,91 @@ async function createNewUser(data) {
 }
 
 async function getAllUser() {
-    try {
-        let users = await db.User.findAll({
-            raw: true,
-        });
-        return users;
-    } catch (e) {
-        throw new Error(e);
-    }
+  try {
+    let users = await db.User.findAll({
+      raw: true,
+    });
+    return users;
+  } catch (e) {
+    throw new Error(e);
+  }
 }
 
 async function getUserById(userId) {
-    try {
-        let user = await db.User.findOne({
-            where: { id: userId },
-            raw: true,
+  try {
+    let user = await db.User.findOne({
+      where: { id: userId },
+      raw: true,
 
-        });
+    });
 
-        if (user) {
-           return user
-        } else {
-            return {}
-        }
-    } catch (e) {
-        throw new Error(e);
+    if (user) {
+      return user
+    } else {
+      return {}
     }
+  } catch (e) {
+    throw new Error(e);
+  }
 }
 
 async function getUserRole(userId) {
   try {
     let user = await db.User.findOne({
-        where: { id: userId },
-        raw: true,
+      where: { id: userId },
+      raw: true,
 
     });
 
     let Role = await db.Allcode.findOne({
-        where: {id: user.roleId}
+      where: { id: user.roleId }
     })
 
     return Role.value;
   } catch (e) {
     throw new Error(e);
-}
+  }
 }
 
 async function updateUserData(data) {
-    try {
-        let user = await db.User.findOne({
-            where: { id: data.id },
+  try {
+    let user = await db.User.findOne({
+      where: { id: data.id },
 
-        })
-        if (user) {
-            user.firstName = data.firstName;
-            user.lastName = data.lastName;
-            user.address = data.address;
+    })
+    if (user) {
+      user.firstName = data.firstName;
+      user.lastName = data.lastName;
+      user.address = data.address;
 
-            await user.save();
-            let allUsers = await db.User.findAll();
-            return allUsers
+      await user.save();
+      let allUsers = await db.User.findAll();
+      return allUsers
 
-        } else {
-            return {}
-        }
-
-    } catch (e) {
-        throw new Error(e);
+    } else {
+      return {}
     }
+
+  } catch (e) {
+    throw new Error(e);
+  }
 }
 
-async function deleteUserById(userId){
-    try {
-        let user = await db.User.findOne({
-            where: { id: userId }
-        })
-        if (user) {
-            await user.destroy();
+async function deleteUserById(userId) {
+  try {
+    let user = await db.User.findOne({
+      where: { id: userId }
+    })
+    if (user) {
+      await user.destroy();
 
-        }
-
-        return "delete successful";
-
-    } catch (e) {
-        throw new Error(e);
     }
+
+    return "delete successful";
+
+  } catch (e) {
+    throw new Error(e);
+  }
 }
 
-module.exports = { hashPassword,createNewUser,getAllUser,getUserById,updateUserData,deleteUserById,getUserRole};
+module.exports = { hashPassword, createNewUser, getAllUser, getUserById, updateUserData, deleteUserById, getUserRole };
