@@ -1,5 +1,7 @@
 const { handleUserLogin } = require('../services/user-services');
 const { hashPassword,createNewUser,getAllUser,getUserById,updateUserData,deleteUserById} = require('../services/CRUDservices')
+const {splitFullName} = require('../algorithm/algorithm')
+const db = require('../models/index');
 
 let checkLogin = async (req, res) => {
     const email = req.body.email;
@@ -109,17 +111,32 @@ let updateData = async(req,res) => {
 }
 
 let createUser = async (req, res) => {
+
+
+    console.log(req.body.name);
+    console.log(splitFullName(req.body.name).firstName);
     try {
       let data = {
         email: req.body.email,
         password: req.body.password,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        address: req.body.address,
-        phonenumber: req.body.phonenumber,
-        gender: req.body.gender === '1' ? true : false,
-        roleId: req.body.roleId,
+        firstName: splitFullName(req.body.name).firstName,
+        lastName: splitFullName(req.body.name).lastName,
+        address: null,
+        phonenumber: null,
+        gender: null,
+        roleId: 'R2',
       };
+
+      let Exists =  await db.User.findOne({
+        where: { email: data.email } 
+    });
+
+    if(Exists){
+        return res.status(500).json({
+            errCode: 2,
+            message: 'Email is existed'
+        })
+    }
   
       // Đợi kết quả từ createNewUser
       let message = await createNewUser(data);
@@ -137,4 +154,4 @@ let createUser = async (req, res) => {
     }
   };
 
-module.exports = { checkLogin };
+module.exports = { checkLogin,changePassWord,createUser,updateData };

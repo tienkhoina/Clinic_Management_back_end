@@ -5,8 +5,10 @@
     "database": "Clinic_Management_Database",
     "host": "localhost",
     "dialect": "mysql",
-    "port": 3309
-
+    "port": 3309,
+    "dialectOptions": {
+      "charset": "utf8mb4"
+    }
   },
   "test": {
     "username": "root",
